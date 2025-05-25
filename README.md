@@ -1,4 +1,3 @@
-
 # FlowSplit - Product Roadmap & Documentation
 
 **Split bills beautifully, one memory at a time**
