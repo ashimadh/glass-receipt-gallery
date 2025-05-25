@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Plus, Users, Receipt, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import TripCard from '@/components/TripCard';
 import CreateTripDialog from '@/components/CreateTripDialog';
 
@@ -43,10 +43,11 @@ const mockTrips = [
 
 const Dashboard = () => {
   const [showCreateTrip, setShowCreateTrip] = useState(false);
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen gradient-primary">
+    <div className="gradient-primary">
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -62,8 +63,25 @@ const Dashboard = () => {
       </div>
 
       <div className="relative z-10 p-6">
+        {/* Welcome message for authenticated users */}
+        {user && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-7xl mx-auto mb-6"
+          >
+            <div className="glass-card p-4">
+              <h2 className="text-lg font-semibold text-white">
+                Welcome back, {user.email?.split('@')[0]}! 👋
+              </h2>
+              <p className="text-white/70 text-sm">Your data will be saved automatically</p>
+            </div>
+          </motion.div>
+        )}
+
         {/* Header */}
-        <motion.header
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -72,7 +90,9 @@ const Dashboard = () => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-bold text-white mb-2">Your Trips</h1>
-              <p className="text-white/80 text-lg">Manage your bill-splitting adventures</p>
+              <p className="text-white/80 text-lg">
+                {user ? 'Manage your bill-splitting adventures' : 'Try our demo - sign up to save your data'}
+              </p>
             </div>
             <Button
               onClick={() => setShowCreateTrip(true)}
@@ -82,7 +102,7 @@ const Dashboard = () => {
               New Trip
             </Button>
           </div>
-        </motion.header>
+        </motion.div>
 
         {/* Stats Cards */}
         <motion.div

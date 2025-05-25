@@ -1,12 +1,17 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import ThemeSection from '../components/ThemeSection';
 import PersonBubble from '../components/PersonBubble';
 import { mockData } from '../data/mockData';
 
 const Index = () => {
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [globalPeople] = useState([
     { id: '1', name: 'Alex', avatar: '👨‍💻', color: 'bg-blue-500' },
     { id: '2', name: 'Sarah', avatar: '👩‍🎨', color: 'bg-pink-500' },
@@ -15,7 +20,7 @@ const Index = () => {
   ]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 relative overflow-hidden">
+    <div className="gradient-primary relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 opacity-30">
         <motion.div
@@ -56,22 +61,44 @@ const Index = () => {
         />
       </div>
 
-      {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="relative z-10 p-6"
-      >
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200">
-            SplitGlass
-          </h1>
-          <p className="text-xl text-purple-200 opacity-80">
-            Split bills beautifully, one memory at a time
-          </p>
+      {/* Hero Section */}
+      <section className="relative z-10 px-6 pt-12 pb-20">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+              Split bills
+              <span className="block text-gradient-vibrant">beautifully</span>
+            </h2>
+            <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+              Turn awkward bill splitting into beautiful shared memories. Track expenses, settle up, and keep friendships money-stress-free.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                size="lg"
+                onClick={() => navigate('/dashboard')}
+                className="bg-white text-primary hover:bg-white/90 font-semibold text-lg px-8 py-6"
+              >
+                Try Demo
+              </Button>
+              {!user && (
+                <Button
+                  size="lg"
+                  variant="outline"
+                  onClick={() => navigate('/auth')}
+                  className="border-white/30 text-white hover:bg-white/10 font-semibold text-lg px-8 py-6"
+                >
+                  Sign Up Free
+                </Button>
+              )}
+            </div>
+          </motion.div>
         </div>
-      </motion.header>
+      </section>
 
       {/* People floating bar */}
       <motion.div
@@ -81,7 +108,7 @@ const Index = () => {
         className="relative z-20 mx-6 mb-8"
       >
         <div className="max-w-7xl mx-auto">
-          <div className="backdrop-blur-lg bg-white/10 rounded-2xl p-4 border border-white/20">
+          <div className="glass-card p-4">
             <div className="flex items-center gap-4 overflow-x-auto scrollbar-hide">
               <span className="text-white/80 text-sm font-medium whitespace-nowrap">People:</span>
               {globalPeople.map((person) => (
@@ -100,7 +127,7 @@ const Index = () => {
         </div>
       </motion.div>
 
-      {/* Main content */}
+      {/* Demo content */}
       <main className="relative z-10 px-6 pb-20">
         <div className="max-w-7xl mx-auto">
           <motion.div

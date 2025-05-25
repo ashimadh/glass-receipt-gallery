@@ -22,7 +22,7 @@ const TripView = () => {
   ];
 
   return (
-    <div className="min-h-screen gradient-primary">
+    <div className="gradient-primary">
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -39,7 +39,7 @@ const TripView = () => {
 
       <div className="relative z-10 p-6">
         {/* Header */}
-        <motion.header
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -88,7 +88,7 @@ const TripView = () => {
               </Button>
             </div>
           </div>
-        </motion.header>
+        </motion.div>
 
         {/* Receipts Grid */}
         <motion.div
